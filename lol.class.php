@@ -42,7 +42,7 @@ class Lol
 
             return $returnData;
         } catch (Exception $e) {
-            return false;
+            throw new Exception($e);
         }
     }
 
