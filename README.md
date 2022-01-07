@@ -17,7 +17,7 @@ You can create new templates in template folder. You have 2 objects available:
 
 All data gathering is done in index.php.
 
-You can then use `&design` parameter in URL set to your folder to use your design.
+You can then use `&design` parameter in URL set to your folder name to use your design.
 
 # Final note
 
