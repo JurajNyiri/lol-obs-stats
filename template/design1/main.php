@@ -55,9 +55,9 @@ if (!isset($lol)) {
             ?>
         </div>
         <?php
-        for ($i = 7; $i >= 0; $i--) {
-            $matchData = $lol->getSimpleMatchData($data->matches[$i]); //already cached so OK to query here
-            echo '<div class="circle ' . ($matchData->won ? "green" : "red") . '"></div>';
+        $lastGames = array_reverse(array_slice($data->games, 0, 8));
+        foreach ($lastGames as $game) {
+            echo '<div class="circle ' . ($game->won ? "green" : "red") . '"></div>';
         }
         ?>
     <?php
