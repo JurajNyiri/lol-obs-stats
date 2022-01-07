@@ -8,6 +8,7 @@ class Lol
     private $id = false;
     private $host;
     private $regionHost;
+    private $downloadedMatches = 0;
 
     private function get($url, $forceUpdate = false)
     {
@@ -20,10 +21,20 @@ class Lol
             return $returnData;
         }
         try {
-            $data = file_get_contents($url);
-            if ($data === false) {
-                return false;
+            $data = file_get_contents($url, false, stream_context_create(['http' => ['ignore_errors' => true]]));
+            $statusData = json_decode($data, true);
+            if ((isset($statusData) && isset($statusData['status']) && isset($statusData['status']['status_code']))) {
+                if ($statusData['status']['status_code'] === 429) {
+                    return false;
+                } else {
+                    if (isset($statusData['status']['message'])) {
+                        throw new Exception($statusData['status']['message']);
+                    } else {
+                        throw new Exception($statusData);
+                    }
+                }
             }
+
             $data = json_decode($data, true);
             file_put_contents($cacheFile, json_encode($data, true));
             $returnData->data = $data;
@@ -47,10 +58,17 @@ class Lol
         $start = 0;
         $count = 100;
         $matches = $this->getMatches($start, $count);
+        if ($matches === false) {
+            return false;
+        }
         while (count($matches) > 0) {
+            $this->downloadedMatches += $count;
             $start += $count;
             $allMatches = array_merge($allMatches, $matches);
             $matches = $this->getMatches($start, $count);
+            if ($matches === false) {
+                return false;
+            }
         }
         return $allMatches;
     }
@@ -101,6 +119,9 @@ class Lol
     {
         $returnData = new stdClass();
         $matchData = $this->getMatchData($matchID);
+        if ($matchData === false) {
+            return false;
+        }
 
         foreach ($matchData['info']['participants'] as $participant) {
             if ($participant['puuid'] === $this->getPuuid()) {
@@ -139,6 +160,9 @@ class Lol
 
     function __construct($name, $key, $host = 'https://euw1.api.riotgames.com/', $regionHost = 'https://europe.api.riotgames.com/')
     {
+        if (!file_exists("data")) {
+            mkdir("data", 0777);
+        }
         $this->name = $name;
         $this->key = $key;
         $this->host = $host;
