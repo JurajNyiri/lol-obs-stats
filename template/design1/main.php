@@ -34,7 +34,7 @@ if (!isset($lol)) {
                     <?php echo $data->lost + $data->won; ?>
                 </td>
                 <td>
-                    <?php echo round($data->won / ($data->lost + $data->won) * 100, 2); ?>%
+                    <?php echo (($data->lost + $data->won === 0) ? "N/A" : round($data->won / ($data->lost + $data->won) * 100, 2) . "%"); ?>
                 </td>
                 <td>
                     <?php
