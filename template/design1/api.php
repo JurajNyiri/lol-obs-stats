@@ -4,7 +4,7 @@ include "../../data.php";
 $returnData = new stdClass();
 
 $returnData->data = "";
-if (isset($error->message)) {
+if (isset($error->message) && $error->message !== "") {
     $returnData->data = $error->message;
     echo json_encode($returnData);
     die();
