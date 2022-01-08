@@ -4,65 +4,33 @@ if (!isset($lol)) {
     die();
 }
 ?>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta http-equiv="refresh" content="30">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/template/design1/main.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <?php
-    if ($error->message !== "") {
-        echo $error->message;
-    } else {
-    ?>
-        <table>
-            <tr>
-                <td style="color:white">
-                    Games
-                </td>
-                <td style="color:white">
-                    WR
-                </td>
-                <td style="color:white">
-                    Rank
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <?php echo $data->lost + $data->won; ?>
-                </td>
-                <td>
-                    <?php echo (($data->lost + $data->won === 0) ? "N/A" : round($data->won / ($data->lost + $data->won) * 100, 2) . "%"); ?>
-                </td>
-                <td>
-                    <?php
-                    if (count($data->leagueData) > 0) {
-                        echo substr($data->leagueData[0]['tier'], 0, 1) . $data->leagueData[0]['rank'] . "<br/>" . $data->leagueData[0]['leaguePoints'] . "&nbsp;LP";
-                    } else {
-                        echo "N/A";
-                    } ?>
-                </td>
-            </tr>
-        </table>
-        <div style=" text-align:left; margin-top: 10px;">
+    <div class="content">
 
-            <span style="color:white; margin-left: 10px;">Last:</span>
-            <?php
-            echo $data->lastGame->won ? "<span style='color:gold'>WON</span>" : "<span style='color:red'>LOST</span>";
-            echo " <span style='color:white;'>(" . $data->lastGame->score . ")</span>";
-            ?>
-        </div>
-        <?php
-        $lastGames = array_reverse(array_slice($data->games, 0, 8));
-        foreach ($lastGames as $game) {
-            echo '<div class="circle ' . ($game->won ? "green" : "red") . '"></div>';
-        }
-        ?>
-    <?php
-    }
-    ?>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            const getData = () => {
+                $.getJSON("/template/design1/api.php?<?php echo http_build_query($_GET); ?>", function(data) {
+                    $(".content").html(data['data']);
+                });
+            }
+            getData();
+            setInterval(getData, 30000);
+        });
+    </script>
 
 </body>
 

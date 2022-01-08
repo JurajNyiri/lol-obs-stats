@@ -31,23 +31,28 @@
 }
 
 body {
-  font-family: "friz_quadrataregular";
-  font-size: 20px;
-  color: gold;
-  text-align: center;
+  background: rgba(0, 0, 0, 0.8) !important;
 }
 
-td {
+.bigText {
   font-family: "friz_quadrataregular";
   font-size: 20px;
+}
+
+.headerTitle {
   color: gold;
   text-align: center;
   padding-right: 10px;
   padding-left: 10px;
+  text-align: center;
 }
 
-body {
-  background: rgba(0, 0, 0, 0.8);
+.headerContent {
+  color: white;
+  text-align: center;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: center;
 }
 
 .circle {
