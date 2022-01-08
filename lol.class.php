@@ -10,6 +10,14 @@ class Lol
     private $regionHost;
     private $downloadedMatches = 0;
 
+    private function authorize($url)
+    {
+        if (strpos(substr($url, strrpos($url, '/') + 1), "?") !== false) {
+            return $url . '&api_key=' . $this->key;
+        } else {
+            return $url . '?api_key=' . $this->key;
+        }
+    }
     private function get($url, $forceUpdate = false)
     {
         $cacheFile = "data/" . md5($url) . ".data";
@@ -21,7 +29,7 @@ class Lol
             return $returnData;
         }
         try {
-            $data = file_get_contents($url, false, stream_context_create(['http' => ['ignore_errors' => true]]));
+            $data = file_get_contents($this->authorize($url), false, stream_context_create(['http' => ['ignore_errors' => true]]));
             $statusData = json_decode($data, true);
             if ((isset($statusData) && isset($statusData['status']) && isset($statusData['status']['status_code']))) {
                 if ($statusData['status']['status_code'] === 429) {
@@ -48,7 +56,7 @@ class Lol
 
     function getSummonerData()
     {
-        $url = $this->host . 'lol/summoner/v4/summoners/by-name/' . $this->name . '?api_key=' . $this->key;
+        $url = $this->host . 'lol/summoner/v4/summoners/by-name/' . $this->name;
         return $this->get($url);
     }
 
@@ -75,7 +83,7 @@ class Lol
 
     function getMatches($start = 0, $count = 100)
     {
-        $url = $this->regionHost . 'lol/match/v5/matches/by-puuid/' . $this->getPuuid() . '/ids?start=' . $start . '&count=' . $count . '&api_key=' . $this->key;
+        $url = $this->regionHost . 'lol/match/v5/matches/by-puuid/' . $this->getPuuid() . '/ids?start=' . $start . '&count=' . $count;
         $data = $this->get($url);
         if (!$data) {
             return false;
@@ -91,7 +99,7 @@ class Lol
 
     function getLeagueData()
     {
-        $url = $this->host . 'lol/league/v4/entries/by-summoner/' . $this->getID() . '?api_key=' . $this->key;
+        $url = $this->host . 'lol/league/v4/entries/by-summoner/' . $this->getID();
         $data = $this->get($url);
         if (!$data) {
             return false;
@@ -107,7 +115,7 @@ class Lol
 
     function getMatchData($matchID)
     {
-        $url = $this->regionHost . 'lol/match/v5/matches/' . $matchID . '?api_key=' . $this->key;
+        $url = $this->regionHost . 'lol/match/v5/matches/' . $matchID;
         $data = $this->get($url);
         if (!$data) {
             return false;
