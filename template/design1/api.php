@@ -4,6 +4,12 @@ include "../../data.php";
 $returnData = new stdClass();
 
 $returnData->data = "";
+if (isset($error->message)) {
+    $returnData->data = $error->message;
+    echo json_encode($returnData);
+    die();
+}
+
 if (!isset($_GET[$config->httpPassword])) {
     $returnData->data = "Access forbidden.";
     echo json_encode($returnData);
