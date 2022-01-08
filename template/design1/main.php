@@ -7,7 +7,7 @@ if (!isset($lol)) {
 <html>
 
 <head>
-    <meta http-equiv="refresh" content="5">
+    <meta http-equiv="refresh" content="30">
     <link href="/template/design1/main.css" rel="stylesheet" type="text/css">
 </head>
 
