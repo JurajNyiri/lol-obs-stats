@@ -13,8 +13,9 @@ if (!isset($_GET[$config->httpPassword])) {
 }
 
 $design = (isset($_GET['design']) ? $_GET['design'] : "design1");
+$apiKey = (isset($_GET['api_key']) ? $_GET['api_key'] : $config->apiKey);
 
-$lol = new lol($config->userName, $config->apiKey, $config->host, $config->regionHost);
+$lol = new lol($config->userName, $apiKey, $config->host, $config->regionHost);
 
 
 $data->matches = $lol->getAllMatches();
@@ -35,7 +36,7 @@ if ($data->leagueData !== false && $data->matches !== false) {
     $data->games = array();
     foreach ($data->matches as $i => $match) {
         $matchData = $lol->getSimpleMatchData($match);
-        if ($matchData->gameMode === "CLASSIC") {
+        if ($matchData && $matchData->gameMode === "CLASSIC") {
             if ($matchData === false) {
                 $error->progress = round($downloadedCount / count($data->matches) * 100, 1);
                 $error->message = "API Limit hit. Keep this page opened and it will download more data.<br/>Download progress: " . $error->progress . "%";
