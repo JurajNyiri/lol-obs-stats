@@ -36,26 +36,29 @@ if ($data->leagueData !== false && $data->matches !== false) {
     $data->games = array();
     foreach ($data->matches as $i => $match) {
         $matchData = $lol->getSimpleMatchData($match);
-        if ($matchData && $matchData->gameMode === "CLASSIC") {
-            if ($matchData === false) {
-                $error->progress = round($downloadedCount / count($data->matches) * 100, 1);
-                $error->message = "API Limit hit. Keep this page opened and it will download more data.<br/>Download progress: " . $error->progress . "%";
-                break;
-            } else {
-                $downloadedCount++;
-                if ($data->lastGame === false) {
-                    $data->lastGame = $matchData;
-                }
-                if (!isset($_GET['champion']) || $matchData->champion === $_GET['champion']) {
-                    if ($matchData->won) {
-                        $data->won++;
-                    } else {
-                        $data->lost++;
-                    }
+        if ($matchData === false) {
+            $error->progress = round($downloadedCount / count($data->matches) * 100, 1);
+            $error->message = "API Limit hit. Keep this page opened and it will download more data.<br/>Download progress: " . $error->progress . "%";
+            break;
+        }
+
+        if (
+            $matchData && $matchData->gameMode === "CLASSIC" && $matchData->gameType == "MATCHED_GAME" &&
+            (!isset($_GET['gameAfter']) || (isset($_GET['gameAfter']) && $matchData->gameCreation > $_GET['gameAfter']))
+        ) {
+            $downloadedCount++;
+            if ($data->lastGame === false) {
+                $data->lastGame = $matchData;
+            }
+            if (!isset($_GET['champion']) || $matchData->champion === $_GET['champion']) {
+                if ($matchData->won) {
+                    $data->won++;
+                } else {
+                    $data->lost++;
                 }
             }
-            array_push($data->games, $matchData);
         }
+        array_push($data->games, $matchData);
     }
 }
 

@@ -138,7 +138,10 @@ class Lol
                 $returnData->won = $participant['win'];
             }
         }
+        $returnData->gameType = $matchData['info']['gameType'];
         $returnData->gameMode = $matchData['info']['gameMode'];
+        $returnData->gameId = $matchData['info']['gameId'];
+        $returnData->gameCreation = $matchData['info']['gameCreation'];
         return $returnData;
     }
 
