@@ -16,13 +16,17 @@ if (!isset($_GET[$config->httpPassword])) {
     die();
 }
 
-$returnData->data .= '
-<div class="row">
-    <div class="col-12 bigText headerTitle" style="font-size:30px;">
-        Season 12
+if (isset($_GET['title'])) {
+    $returnData->data .= '
+    <div class="row">
+        <div class="col-12 bigText headerTitle" style="font-size:30px;">';
+    $returnData->data .= $_GET['title'];
+    $returnData->data .= '
+        </div>
     </div>
-</div>
-';
+    ';
+}
+
 $returnData->data .= '
     <div class="row w-100 bigText headerTitle px-0 mx-0">
         <div class="col-4 px-0 mx-0" style="padding-left:10px !important;">

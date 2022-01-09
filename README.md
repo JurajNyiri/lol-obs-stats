@@ -13,6 +13,7 @@ Open /?`yourHTTPPassword`
 ## Optional URL parameters
 
 - `api_key` - override api_key set in config.php via URL
+- `title` - title to display in template. In above picture it is set to "Season 12"
 - `champion` - get stats only for specific champion you played
 - `gameAfter` - get only games after UNIX timestamp with ms, example value: 1641575632000
 - `design` - specify template to use
