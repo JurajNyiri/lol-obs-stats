@@ -8,7 +8,14 @@ Add via Browser input to your stream. Display your last game, win rate, current 
 
 Rename config.sample.php to config.php and set all variables.
 
-Open /?`yourHTTPPassword`&Champion=`yourChampionName`
+Open /?`yourHTTPPassword`
+
+## Optional URL parameters
+
+- `api_key` - override api_key set in config.php via URL
+- `champion` - get stats only for specific champion you played
+- `gameAfter` - get only games after UNIX timestamp with ms, example value: 1641575632000
+- `design` - specify template to use
 
 # Configuration
 
