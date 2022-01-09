@@ -2,6 +2,8 @@
 
 Add via Browser input to your stream. Display your last game, win rate, current elo and more.
 
+![example look](https://github.com/JurajNyiri/lol-obs-stats/blob/main/img/example.jpeg?raw=true)
+
 # Installation
 
 Rename config.sample.php to config.php and set all variables.

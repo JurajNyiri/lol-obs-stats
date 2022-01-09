@@ -31,7 +31,7 @@
 }
 
 body {
-  background: rgba(0, 0, 0, 0.8) !important;
+  background: rgba(0, 0, 0, 0) !important;
 }
 
 .bigText {
@@ -47,6 +47,13 @@ body {
   text-align: center;
 }
 
+.content {
+  width: 230px;
+  height: 230px;
+  background: url("/img/bg.jpeg");
+  border-top-left-radius: 15px;
+}
+
 .headerContent {
   color: white;
   text-align: center;
@@ -58,8 +65,8 @@ body {
 .circle {
   overflow: hidden;
   border-radius: 20px;
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   float: left;
   margin-left: 10px;
   margin-top: 5px;
